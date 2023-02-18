@@ -1,16 +1,17 @@
-import Layout from '../../components/layout/layout';
+import Layout from '../../components/layout/layout.tsx';
 import { getAllPostIds, getPostData } from '../../lib/posts';
 import Head from 'next/head';
 import Date from '../../components/date';
 import utilStyles from '../../styles/utils.module.css';
-export async function getStaticPaths() {
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
+export const getStaticPaths: GetStaticPaths = async() => {
   const paths = getAllPostIds();
   return {
     paths,
     fallback: false,
   };
 }
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   // Add the "await" keyword like this:
   const postData = await getPostData(params.id);
 
@@ -22,7 +23,7 @@ export async function getStaticProps({ params }) {
 }
 export default function Post({ postData }) {
   return (
-    <Layout>
+    <Layout home={false}>
       <Head>
         <title>{postData.title}</title>
       </Head>
